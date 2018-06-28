@@ -96,28 +96,22 @@ Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese Alps. Situate
       ),
     );
 
-    return new MaterialApp(
-      title: 'Flutter Demo',
-      /*theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),*/
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Top Lakes"),
-        ),
-        body: new ListView(
-          children: <Widget>[
-            new Image.asset(
-              "images/lake.jpg",
-              width: 600.0,
-              height: 240.0,
-              fit: BoxFit.cover,
-            ),
-            titleSection,
-            buttonSection,
-            textSection,
-          ],
-        ),
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Top Lakes"),
+      ),
+      body: new ListView(
+        children: <Widget>[
+          new Image.asset(
+            "images/lake.jpg",
+            width: 600.0,
+            height: 240.0,
+            fit: BoxFit.cover,
+          ),
+          titleSection,
+          buttonSection,
+          textSection,
+        ],
       ),
     );
   }
@@ -131,16 +125,28 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    void _gotoHomeLakePage() {
+    void _pushLakePage() {
       Navigator.of(context).push(
-            new MaterialPageRoute(builder: (context) {
-              return new LakePage();
-            }),
-          );
+        new MaterialPageRoute(builder: (context) {
+          return new LakePage();
+        }),
+      );
     }
 
-    void _gotoNestingRowColumnPage() {
+    void _pushRowPage() {
+      Navigator.of(context).push(new MaterialPageRoute(
+        builder: (context) {
+          return new RowPage();
+        },
+      ));
+    }
 
+    void _pushSizingPage() {
+      Navigator.of(context).push(new MaterialPageRoute(
+        builder: (context) {
+          return SizingPage();
+        },
+      ));
     }
 
     return new Scaffold(
@@ -149,21 +155,34 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: new Text("Flutter Basic Layout"),
       ),
-      body: new Center(
+      body: new Align(
+        alignment: Alignment.center,
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new RaisedButton(
-              onPressed: () {
-                _gotoHomeLakePage();
-              },
-              child: new Text("Lake Page"),
+            new Container(
+              margin: const EdgeInsets.only(bottom: 10.0),
+              child: new RaisedButton(
+                onPressed: () {
+                  _pushLakePage();
+                },
+                child: new Text("Lake Page"),
+              ),
+            ),
+            new Container(
+              margin: const EdgeInsets.only(bottom: 10.0),
+              child: new RaisedButton(
+                onPressed: () {
+                  _pushRowPage();
+                },
+                child: new Text("Row Page"),
+              ),
             ),
             new RaisedButton(
               onPressed: () {
-                _gotoNestingRowColumnPage();
+                _pushSizingPage();
               },
-              child: new Text("NestingRowColumn Page"),
+              child: new Text("Sizing Page"),
             ),
           ],
         ),
@@ -172,11 +191,71 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class NestingRowColumnPage extends StatelessWidget {
+class RowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO
-    return new LakePage();
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Row Layout"),
+      ),
+      body: new Center(
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            new Image.asset("images/pic1.jpg"),
+            new Image.asset("images/pic2.jpg"),
+            new Image.asset("images/pic3.jpg"),
+          ],
+        ),
+      ),
+    );
   }
+}
 
+class SizingPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Sizing Widget"),
+      ),
+      body: new Column(
+        children: <Widget>[
+          new Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              new Expanded(
+                child: new Image.asset("images/row_expanded_pic1.jpg"),
+                flex: 1,
+              ),
+              new Expanded(
+                child: new Image.asset("images/row_expanded_pic2.jpg"),
+                flex: 2,
+              ),
+              //new Image.asset("images/row_expanded_pic1.jpg"),
+              //new Image.asset("images/row_expanded_pic2.jpg"),
+              new Expanded(
+                child: new Image.asset("images/row_expanded_pic3.jpg"),
+                flex: 1,
+              ),
+              //new Image.asset("images/row_expanded_pic3.jpg"),
+            ],
+          ),
+          new Container(
+            margin: const EdgeInsets.only(top: 20.0),
+            child: new Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                new Icon(Icons.star, color: Colors.green[500],),
+                new Icon(Icons.star, color: Colors.green[500],),
+                new Icon(Icons.star, color: Colors.green[500],),
+                new Icon(Icons.star, color: Colors.black,),
+                new Icon(Icons.star, color: Colors.black,),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
